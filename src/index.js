@@ -1,3 +1,2 @@
-var playlist = require('./playlist');
-
-exports.playlist = playlist;
+exports.playlist = require('./playlist');
+exports.live = require('./live');

@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dev-null": "^0.1.1",
+    "icy": "^2.1.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
