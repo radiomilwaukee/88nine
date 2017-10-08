@@ -36,11 +36,30 @@ playlist.last().then(function(song) {
 });
 ```
 
-**Song Event** - `playlist` is an `EventEmitter` that emits a `song` event for every new playlist entry
+## Stream
+
+**Song Event** - `EventEmitter` for pulling metadata from the live streams
 
 ```javascript
-playlist.on('song', function(song) {
-  // Song is the song that is currently playing
-  // (this is checked every 5 seconds)
+
+// Subscribe to events for only local music
+const {live} = require('88nine');
+live.local.on('song', function(song) {
+  {
+    artist: 'Andrea Day', 
+    track: 'Rise Up',
+    album: 'Cheers to the Fall',
+    playedAt: new Date('2017-10-08T20:02:47.411Z')
+  }
 });
-```
+
+// Subscribe to events for full 88nine stream
+const {live} = require('88nine');
+live.all.on('song', function(song) {
+  {
+    artist: 'Andrea Day', 
+    track: 'Rise Up',
+    album: 'Cheers to the Fall',
+    playedAt: new Date('2017-10-08T20:02:47.411Z')
+  }
+});
