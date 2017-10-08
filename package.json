@@ -1,12 +1,20 @@
 {
   "name": "88nine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Library for interacting with 88nine Radio Milwaukee",
   "main": "src/index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
   },
-  "author": "",
+  "author": "Nick Gartmann <nick@rokkincat.com>",
+  "bugs": {
+    "url": "https://github.com/nickgartmann/88nine/issues",
+    "email": "nick@rokkincat.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickgartmann/88nine.git"
+  },
   "license": "ISC",
   "dependencies": {
     "dev-null": "^0.1.1",
@@ -15,6 +23,6 @@
   },
   "devDependencies": {
     "mocha": "^4.0.1",
-    "mockery": "^2.1.0"
+    "rewire": "^2.5.2"
   }
 }
