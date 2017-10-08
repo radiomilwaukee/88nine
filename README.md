@@ -11,7 +11,7 @@ npm install 88nine
 
 **Fetch** - Get a list of the 100 most recently played songs 
 
-```
+```javascript
 const playlist = require('88nine').playlist;
 playlist.fetch().then(function(songs) {
   // do something with the songs
@@ -30,7 +30,7 @@ playlist.fetch().then(function(songs) {
 
 **Last** - Get the last `N` recently plaed songs (defaults to 1)
 
-```
+```javascript
 playlist.last().then(function(song) {
   // Song is the most recently played song
 });
@@ -38,7 +38,7 @@ playlist.last().then(function(song) {
 
 **Song Event** - `playlist` is an `EventEmitter` that emits a `song` event for every new playlist entry
 
-```
+```javascript
 playlist.on('song', function(song) {
   // Song is the song that is currently playing
   // (this is checked every 5 seconds)
