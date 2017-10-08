@@ -19,7 +19,7 @@ playlist.fetch().then(function(songs) {
   // the following structure:
 
   [{ 
-    playedAt: 2017-10-08T16:58:09.000Z,
+    playedAt: "2017-10-08T16:58:09.000Z",
     artist: 'Abby Jeanne',
     title: 'Cosmic Beings',
     album: 'Cosmic Beings- Single',
