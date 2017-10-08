@@ -36,8 +36,6 @@ function cleanPlaylist(playlist) {
   });
 }
 
-module.exports = new EventEmitter();
-
 /* 
  * Fetch the entire playlist history
  */
@@ -62,42 +60,4 @@ module.exports.last = function(amount) {
     }
   });
 }
-
-/* 
- * Wire up the event emittier to scan
- * the playlist file every 5 seconds
- * when there is a listener
- *
- * Example: 
- *  playlist.on('song', (song) => {
- *    console.log(song.title);
- *  })
- */
-
-var lastReportedSong = null;
-var interval = null;
-
-module.exports.on('newListener', (event) => {
-  if(event !== 'song') return;
-  if(module.exports.listenerCount('song') == 0) {
-    module.exports.last().then(function(song) {
-      lastReportedSong = song; 
-      interval = setInterval(function() {
-        module.exports.last().then(function(lastSong) {
-          if(lastReportedSong.artist != lastSong.artist 
-             && lastReportedSong.title != lastSong.title) {
-            lastReportedSong = lastSong;
-            module.exports.emit('song', lastSong);
-          }
-        })
-      }, 5000);
-    });
-  }
-})
-
-module.exports.on('removeListener', () => {
-  if(module.exports.listenerCount('song') == 1) {
-    clearInterval(interval);
-  }
-});
 
