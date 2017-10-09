@@ -28,7 +28,7 @@ playlist.fetch().then(function(songs) {
 });
 ```
 
-**Last** - Get the last `N` recently plaed songs (defaults to 1)
+**Last** - Get the last `N` recently played songs (defaults to 1)
 
 ```javascript
 playlist.last().then(function(song) {
