@@ -8,12 +8,12 @@
   },
   "author": "Nick Gartmann <nick@rokkincat.com>",
   "bugs": {
-    "url": "https://github.com/nickgartmann/88nine/issues",
+    "url": "https://github.com/radiomilwaukee/88nine/issues",
     "email": "nick@rokkincat.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickgartmann/88nine.git"
+    "url": "https://github.com/radiomilwaukee/88nine.git"
   },
   "license": "ISC",
   "dependencies": {
