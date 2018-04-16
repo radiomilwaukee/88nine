@@ -44,3 +44,40 @@ exports.track = (name, artist) => {
     return json.recordings[0]
   });
 }
+
+exports.coverArt = (albumTitle, recording) => {
+  let release = getBestRelease(albumTitle, recording)["release-group"]["id"];
+  if(release) {
+    return new Promise((resolve, reject) => {
+      http.get({
+        protocol: "http:",
+        hostname: "coverartarchive.org",
+        headers: {
+          "User-Agent": "Application 88nine/0.1.0 (radiomilwaukee.org)",
+          "Accept": "application/json"
+        },
+        path: `/release-group/${release}`,
+      }, (response) => {
+        if(response.statusCode == 200) {
+          var body = "";
+          response.on('data', (chunk) => body += chunk)
+          response.on('end', () => resolve(JSON.parse(body)))
+        } else {
+          resolve(null)
+        }
+      })
+    }).then((json) => {
+      return json
+    });
+  } else {
+    return new Promise((resolve, reject) => resolve({}))
+  }
+}
+
+
+function getBestRelease(albumTitle, recording) {
+  return recordings.releases.find((r) => {
+    return r["title"] == albumTitle
+  });
+}
+
