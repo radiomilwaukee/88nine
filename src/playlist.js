@@ -3,7 +3,7 @@ var http = require('https')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
-function fetchPlaylistXml (url) {
+function fetchPlaylistXml () {
   return new Promise((resolve, reject) => {
     http.get(PLAYLIST_URL, (response) => {
       var body = ''
