@@ -24,15 +24,13 @@ function parsePlaylist (rawXml) {
 };
 
 function cleanPlaylist (playlist) {
-  return playlist.map((song) => {
-    return {
-      playedAt: new Date(song.AIRTIME[0]),
-      artist: song.Artist[0],
-      title: song.Title[0],
-      album: song.Album[0],
-      composer: song.Composer[0]
-    }
-  })
+  return playlist.map((song) => ({
+    playedAt: new Date(song.AIRTIME[0]),
+    artist: song.Artist[0],
+    title: song.Title[0],
+    album: song.Album[0],
+    composer: song.Composer[0]
+  }))
 }
 
 /*
