@@ -20,16 +20,16 @@ describe('Playlist', () => {
     it('has all requied attributes', () => {
       return playlist.fetch().then((playlist) => {
         var song = playlist[0]
-        assert(Object.keys(song).indexOf('playedAt') != -1)
+        assert('playedAt' in song)
 
-        assert(Object.keys(song).indexOf('artist') != -1)
-        assert(song.artist == 'Curtis Harding')
+        assert('artist' in song)
+        assert(song.artist === 'Curtis Harding')
 
-        assert(Object.keys(song).indexOf('title') != -1)
-        assert(song.title == 'On and On')
+        assert('title' in song)
+        assert(song.title === 'On and On')
 
-        assert(Object.keys(song).indexOf('album') != -1)
-        assert(song.album == 'Single - On and On')
+        assert('album' in song)
+        assert(song.album === 'Single - On and On')
       })
     })
   })
@@ -37,15 +37,15 @@ describe('Playlist', () => {
   describe('#last()', () => {
     it('Fetches the last song played', () => {
       return playlist.last().then((song) => {
-        assert(song.title == 'On and On')
+        assert(song.title === 'On and On')
       })
     })
 
     it('Fetches the last two songs played', () => {
       return playlist.last(2).then((songs) => {
-        assert(songs.length == 2)
-        assert(songs[0].title == 'On and On')
-        assert(songs[1].title == 'Zonin')
+        assert(songs.length === 2)
+        assert(songs[0].title === 'On and On')
+        assert(songs[1].title === 'Zonin')
       })
     })
   })
