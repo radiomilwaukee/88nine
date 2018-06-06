@@ -11,7 +11,7 @@ exports.artist = (name) => {
       path: `/ws/2/artist?query=artist:${encodeURIComponent(name)}&fmt=json`
     }, (response) => {
       var body = ''
-      response.on('data', (chunk) => body += chunk)
+      response.on('data', (chunk) => { body += chunk })
       response.on('end', () => resolve(JSON.parse(body)))
     })
   }).then((artists) => {
@@ -37,7 +37,7 @@ exports.track = (name, artist) => {
       path: `/ws/2/recording?query="${encodeURIComponent(name)}"%20AND%20arid:${artist.id}&fmt=json`
     }, (response) => {
       var body = ''
-      response.on('data', (chunk) => body += chunk)
+      response.on('data', (chunk) => { body += chunk })
       response.on('end', () => resolve(JSON.parse(body)))
     })
   }).then((json) => {

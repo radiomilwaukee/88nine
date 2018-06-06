@@ -8,7 +8,7 @@ function fetchPlaylistXml (url) {
     http.get(PLAYLIST_URL, (response) => {
       var body = ''
       response.on('error', (e) => reject(e))
-      response.on('data', (chunk) => body += chunk)
+      response.on('data', (chunk) => { body += chunk })
       response.on('end', () => resolve(body))
     })
   })
