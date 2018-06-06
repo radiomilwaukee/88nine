@@ -51,11 +51,11 @@ function parseMetadata (metadata) {
 Object.keys(module.exports).forEach((key) => {
   module.exports[key].on('newListener', (event) => {
     if (event !== 'song') return
-    if (module.exports[key].listenerCount('song') == 0) {
+    if (module.exports[key].listenerCount('song') === 0) {
       icy.get(URLS[key], (res) => {
         res.on('metadata', (metadata) => {
           metadata = parseMetadata(metadata.toString())
-          if (metadata != null && metadata.artist != '414 Music') {
+          if (metadata != null && metadata.artist !== '414 Music') {
             musicbrainz.artist(metadata.artist).then((artistObj) => {
               return musicbrainz.track(metadata.track, artistObj).then((track) => {
                 module.exports[key].emit('song', {
@@ -81,7 +81,7 @@ Object.keys(module.exports).forEach((key) => {
     }
   })
   module.exports[key].on('removeListener', () => {
-    if (module.exports.listenerCount('song') == 1) {
+    if (module.exports.listenerCount('song') === 1) {
       if (PIPES[key]) {
         PIPES[key].unpipe(devnull())
         PIPES[key] = null
