@@ -1,6 +1,5 @@
 var xml2js = require('xml2js')
 var http = require('https')
-var EventEmitter = require('events')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
