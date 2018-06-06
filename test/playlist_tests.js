@@ -1,5 +1,6 @@
 var assert = require('assert')
 var rewire = require('rewire')
+const {describe, it} = require('mocha')
 
 var playlist = rewire('../src/playlist')
 playlist.__set__('fetchPlaylistXml', function () {
