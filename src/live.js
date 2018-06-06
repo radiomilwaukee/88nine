@@ -36,7 +36,7 @@ function decodeHTMLEntities (text) {
 }
 
 function parseMetadata (metadata) {
-  var regex = /StreamTitle\='(.+?) - (.+?)';/
+  var regex = /StreamTitle='(.+?) - (.+?)';/
   var matches = metadata.match(regex)
   if (matches) {
     return {
