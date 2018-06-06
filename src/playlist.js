@@ -1,18 +1,13 @@
-var xml2js = require('xml2js')
-var http = require('https')
+const xml2js = require('xml2js')
+const http = require('node-fetch')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
-function fetchPlaylistXml () {
-  return new Promise((resolve, reject) => {
-    http.get(PLAYLIST_URL, (response) => {
-      var body = ''
-      response.on('error', (e) => reject(e))
-      response.on('data', (chunk) => { body += chunk })
-      response.on('end', () => resolve(body))
-    })
-  })
-}
+let fetchPlaylistXml = () => (
+  http(PLAYLIST_URL).then(
+    res => res.text()
+  )
+)
 
 function parsePlaylist (rawXml) {
   return new Promise((resolve, reject) => {
