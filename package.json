@@ -4,7 +4,7 @@
   "description": "Library for interacting with 88nine Radio Milwaukee",
   "main": "src/index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "standard && mocha"
   },
   "author": "Nick Gartmann <nick@rokkincat.com>",
   "bugs": {
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "mocha": "^4.0.1",
-    "rewire": "^2.5.2"
+    "rewire": "^2.5.2",
+    "standard": "^11.0.1"
   }
 }
