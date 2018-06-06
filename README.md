@@ -9,21 +9,21 @@ npm install 88nine
 
 ## Playlists
 
-**Fetch** - Get a list of the 100 most recently played songs 
+**Fetch** - Get a list of the 100 most recently played songs
 
 ```javascript
 const playlist = require('88nine').playlist;
 playlist.fetch().then(function(songs) {
   // do something with the songs
-  // Songs is an array of js objects with 
+  // Songs is an array of js objects with
   // the following structure:
 
-  [{ 
+  [{
     playedAt: "2017-10-08T16:58:09.000Z",
     artist: 'Abby Jeanne',
     title: 'Cosmic Beings',
     album: 'Cosmic Beings- Single',
-    composer: '' 
+    composer: ''
   }]
 });
 ```
@@ -46,7 +46,7 @@ playlist.last().then(function(song) {
 const {live} = require('88nine');
 live.local.on('song', function(song) {
   {
-    artist: 'Andrea Day', 
+    artist: 'Andrea Day',
     track: 'Rise Up',
     album: 'Cheers to the Fall',
     playedAt: new Date('2017-10-08T20:02:47.411Z')
@@ -57,7 +57,7 @@ live.local.on('song', function(song) {
 const {live} = require('88nine');
 live.all.on('song', function(song) {
   {
-    artist: 'Andrea Day', 
+    artist: 'Andrea Day',
     track: 'Rise Up',
     album: 'Cheers to the Fall',
     playedAt: new Date('2017-10-08T20:02:47.411Z')
