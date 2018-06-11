@@ -18,19 +18,16 @@ describe('Playlist', () => {
       })
     })
 
-    it('has all requied attributes', () => {
+    it('has all required attributes', () => {
       return playlist.fetch().then((playlist) => {
         var song = playlist[0]
-        assert('playedAt' in song)
-
-        assert('artist' in song)
-        assert(song.artist === 'Curtis Harding')
-
-        assert('title' in song)
-        assert(song.title === 'On and On')
-
-        assert('album' in song)
-        assert(song.album === 'Single - On and On')
+        assert.deepEqual(song, {
+          album: 'Single - On and On',
+          artist: 'Curtis Harding',
+          duration: 226,
+          playedAt: new Date('2017-10-08T14:51:27.000Z'),
+          title: 'On and On'
+        })
       })
     })
   })
