@@ -17,8 +17,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "dev-null": "^0.1.1",
-    "icy": "^2.1.0",
     "lodash.sortby": "^4.7.0",
     "node-fetch": "^2.1.2",
     "readable-stream": "^2.3.6",

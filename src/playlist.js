@@ -46,19 +46,3 @@ module.exports.fetch = function () {
     .then(parsePlaylist)
     .then(cleanPlaylist)
 }
-
-/*
- * Fetch the last played song in the playlist,
- * optional count parameter to fetch the last
- * `N` songs.
- */
-module.exports.last = function (amount) {
-  if (amount === undefined) amount = 1
-  return module.exports.fetch().then((list) => {
-    if (amount === 1) {
-      return list[0]
-    } else {
-      return list.slice(0, amount)
-    }
-  })
-}
