@@ -1,10 +1,34 @@
-88nine Radio Milwaukee
-=======================
+# 88nine Radio Milwaukee
 
 A node library for interacting with [88nine Radio Milwaukee](http://radiomilwaukee.org).
 
+```bash
+npm install --save 88nine
 ```
-npm install 88nine
+
+## How do I use it?
+
+```js
+const {PlaylistStream} = require('88nine')
+
+// create a stream that checks for a new song once every 60 seconds (60,000ms)
+var stream = new PlaylistStream(60000)
+
+// this function will be called whenever the stream has data to be read. In this
+// case, that's whenever a new song is played.
+stream.on('data', (song) => {
+  // song is something like:
+  // {
+  //   album: 'Illinois',
+  //   artist: 'Sufjan Stevens',
+  //   duration: 520, // the duraiton in seconds
+  //   playedAt: new Date('2018-06-11T20:22:11.000Z'),
+  //   title: 'Casimir Pulaski Day',
+  // }
+})
+
+// you can destroy it when you're done using the stream, if you want
+stream.destroy()
 ```
 
 ## Playlists
