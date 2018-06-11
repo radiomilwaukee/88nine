@@ -19,6 +19,13 @@ function parsePlaylist (rawXml) {
 };
 
 function cleanPlaylist (playlist) {
+  // HACK: we cannot trust anything but the most recent song in the playlist
+  // (see the "Incorrect Songs" section in README.md). If / when this is fixed,
+  // removing the following line will enable handing the full history that's
+  // avaliable in WYMSHIS.XML and all 100 entries will be written out, in order,
+  // when a new stream is created.
+  playlist = [playlist[0]]
+
   // as far as I can tell, the "Date" element is always just a less accurate
   // copy of "AIRTIME", and both "Composer" & "MusicId" are always blank. "Cart"
   // is omitted because it's not useful.
