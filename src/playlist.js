@@ -19,12 +19,15 @@ function parsePlaylist (rawXml) {
 };
 
 function cleanPlaylist (playlist) {
+  // as far as I can tell, the "Date" element is always just a less accurate
+  // copy of "AIRTIME", and both "Composer" & "MusicId" are always blank. "Cart"
+  // is omitted because it's not useful.
   return playlist.map((song) => ({
-    playedAt: new Date(song.AIRTIME[0]),
-    artist: song.Artist[0],
-    title: song.Title[0],
     album: song.Album[0],
-    composer: song.Composer[0]
+    artist: song.Artist[0],
+    duration: parseInt(song.Duration[0]),
+    playedAt: new Date(song.AIRTIME[0]),
+    title: song.Title[0]
   }))
 }
 
