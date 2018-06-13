@@ -2,7 +2,7 @@
   "name": "88nine",
   "version": "0.2.0",
   "description": "Library for interacting with 88nine Radio Milwaukee",
-  "main": "src/index.js",
+  "main": "src",
   "scripts": {
     "test": "standard && mocha"
   },
