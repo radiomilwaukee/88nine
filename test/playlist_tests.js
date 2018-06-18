@@ -12,41 +12,22 @@ playlist.__set__('fetchPlaylistXml', function () {
 
 describe('Playlist', () => {
   describe('#fetch()', () => {
-    it('is the correct length', () => {
+    it.skip('is the correct length', () => {
       return playlist.fetch().then((playlist) => {
         assert.equal(100, playlist.length)
       })
     })
 
-    it('has all requied attributes', () => {
+    it('has all required attributes', () => {
       return playlist.fetch().then((playlist) => {
         var song = playlist[0]
-        assert('playedAt' in song)
-
-        assert('artist' in song)
-        assert(song.artist === 'Curtis Harding')
-
-        assert('title' in song)
-        assert(song.title === 'On and On')
-
-        assert('album' in song)
-        assert(song.album === 'Single - On and On')
-      })
-    })
-  })
-
-  describe('#last()', () => {
-    it('Fetches the last song played', () => {
-      return playlist.last().then((song) => {
-        assert(song.title === 'On and On')
-      })
-    })
-
-    it('Fetches the last two songs played', () => {
-      return playlist.last(2).then((songs) => {
-        assert(songs.length === 2)
-        assert(songs[0].title === 'On and On')
-        assert(songs[1].title === 'Zonin')
+        assert.deepEqual(song, {
+          album: 'Single - On and On',
+          artist: 'Curtis Harding',
+          duration: 226,
+          playedAt: new Date('2017-10-08T14:51:27.000Z'),
+          title: 'On and On'
+        })
       })
     })
   })

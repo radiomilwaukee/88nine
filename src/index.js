@@ -1,2 +1,3 @@
-exports.playlist = require('./playlist')
-exports.live = require('./live')
+module.exports = {
+  PlaylistStream: require('./playlist-stream')
+}

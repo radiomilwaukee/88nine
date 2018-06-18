@@ -1,18 +1,13 @@
-var xml2js = require('xml2js')
-var http = require('https')
+const xml2js = require('xml2js')
+const http = require('node-fetch')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
-function fetchPlaylistXml () {
-  return new Promise((resolve, reject) => {
-    http.get(PLAYLIST_URL, (response) => {
-      var body = ''
-      response.on('error', (e) => reject(e))
-      response.on('data', (chunk) => { body += chunk })
-      response.on('end', () => resolve(body))
-    })
-  })
-}
+let fetchPlaylistXml = () => (
+  http(PLAYLIST_URL).then(
+    res => res.text()
+  )
+)
 
 function parsePlaylist (rawXml) {
   return new Promise((resolve, reject) => {
@@ -24,12 +19,22 @@ function parsePlaylist (rawXml) {
 };
 
 function cleanPlaylist (playlist) {
+  // HACK: we cannot trust anything but the most recent song in the playlist
+  // (see the "Incorrect Songs" section in README.md). If / when this is fixed,
+  // removing the following line will enable handing the full history that's
+  // avaliable in WYMSHIS.XML and all 100 entries will be written out, in order,
+  // when a new stream is created.
+  playlist = [playlist[0]]
+
+  // as far as I can tell, the "Date" element is always just a less accurate
+  // copy of "AIRTIME", and both "Composer" & "MusicId" are always blank. "Cart"
+  // is omitted because it's not useful.
   return playlist.map((song) => ({
-    playedAt: new Date(song.AIRTIME[0]),
-    artist: song.Artist[0],
-    title: song.Title[0],
     album: song.Album[0],
-    composer: song.Composer[0]
+    artist: song.Artist[0],
+    duration: parseInt(song.Duration[0]),
+    playedAt: new Date(song.AIRTIME[0]),
+    title: song.Title[0]
   }))
 }
 
@@ -40,20 +45,4 @@ module.exports.fetch = function () {
   return fetchPlaylistXml(PLAYLIST_URL)
     .then(parsePlaylist)
     .then(cleanPlaylist)
-}
-
-/*
- * Fetch the last played song in the playlist,
- * optional count parameter to fetch the last
- * `N` songs.
- */
-module.exports.last = function (amount) {
-  if (amount === undefined) amount = 1
-  return module.exports.fetch().then((list) => {
-    if (amount === 1) {
-      return list[0]
-    } else {
-      return list.slice(0, amount)
-    }
-  })
 }
