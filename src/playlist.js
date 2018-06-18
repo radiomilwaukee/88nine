@@ -1,10 +1,10 @@
 const xml2js = require('xml2js')
-const http = require('node-fetch')
+const fetch = require('node-fetch')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
 let fetchPlaylistXml = () => (
-  http(PLAYLIST_URL).then(
+  fetch(PLAYLIST_URL).then(
     res => res.text()
   )
 )
