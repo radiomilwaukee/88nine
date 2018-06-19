@@ -2,6 +2,9 @@
   "name": "88nine",
   "version": "0.2.0",
   "description": "Library for interacting with 88nine Radio Milwaukee",
+  "bin": {
+    "88nine": "./bin/index.js"
+  },
   "main": "src",
   "scripts": {
     "test": "standard && mocha"
@@ -17,6 +20,8 @@
   },
   "license": "ISC",
   "dependencies": {
+    "JSONStream": "^1.3.3",
+    "argparse": "^1.0.10",
     "lodash.sortby": "^4.7.0",
     "node-fetch": "^2.1.2",
     "readable-stream": "^2.3.6",
