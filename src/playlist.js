@@ -1,12 +1,47 @@
 const xml2js = require('xml2js')
-const http = require('node-fetch')
+const fetch = require('node-fetch')
 
 const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
 
-let fetchPlaylistXml = () => (
-  http(PLAYLIST_URL).then(
-    res => res.text()
-  )
+/**
+ * @param {int} time Duration of delay
+ * @return {Promise} A promise that returns after a fixed amount of time.
+ */
+const delay = (time) => (
+  new Promise((resolve) => setTimeout(resolve, time))
+)
+
+/**
+ * Check for a non-200 class status code and throw an error if it's detected.
+ * @param {Object} response Fetch response to check
+ * @return {Object} The unchanged response
+ */
+const checkStatus = (res) => {
+  if (res.status >= 200 && res.status < 300) {
+    return res
+  } else {
+    const error = new Error(`Got error ${res.status} (${res.statusText}) when fetching playlist.`)
+    error.response = res
+    throw error
+  }
+}
+
+const fetchPlaylistXml = (retryTime = 1000) => (
+  fetch(PLAYLIST_URL).then(
+    checkStatus
+  ).catch((error) => {
+    let {response} = error
+    if (retryTime > 60000 ||
+       (response != null && (response.status === 404 || response.status === 403))) {
+      // rethrow if we've retried too many times, or if we get a 404.
+      // AWS S3 turns 404s into 403s, so don't retry that either.
+      throw error
+    }
+    return delay(retryTime).then(
+      // grow the delay between retries linearly
+      fetchPlaylistXml.bind(this, retryTime + 1000)
+    )
+  })
 )
 
 function parsePlaylist (rawXml) {
@@ -42,7 +77,8 @@ function cleanPlaylist (playlist) {
  * Fetch the entire playlist history
  */
 module.exports.fetch = function () {
-  return fetchPlaylistXml(PLAYLIST_URL)
+  return fetchPlaylistXml()
+    .then(res => res.text())
     .then(parsePlaylist)
     .then(cleanPlaylist)
 }

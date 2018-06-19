@@ -53,7 +53,9 @@ class PlaylistStream extends Readable {
         this.push.bind(this)
       )
       this._mostRecentPlayedAt = songs[totalNewSongs - 1].playedAt
-    })
+    }).catch((error) =>
+      this.destroy(error)
+    )
   }
 
   _schedulePoll (delay = this._minPollingInterval) {
