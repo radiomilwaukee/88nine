@@ -3,7 +3,7 @@ var rewire = require('rewire')
 const {describe, it} = require('mocha')
 
 var playlist = rewire('../src/playlist')
-playlist.__set__('fetchPlaylistXml', function () {
+playlist.__set__('fetchPlaylistXmlAsText', function () {
   var fs = require('fs')
   return new Promise((resolve, reject) => {
     resolve(fs.readFileSync('./test/data/playlist.xml').toString())
