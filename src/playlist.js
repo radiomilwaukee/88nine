@@ -44,6 +44,10 @@ const fetchPlaylistXml = (retryTime = 1000) => (
   })
 )
 
+let fetchPlaylistXmlAsText = () => (
+  fetchPlaylistXml().then(res => res.text())
+)
+
 function parsePlaylist (rawXml) {
   return new Promise((resolve, reject) => {
     xml2js.parseString(rawXml, (error, json) => {
@@ -76,9 +80,6 @@ function cleanPlaylist (playlist) {
 /*
  * Fetch the entire playlist history
  */
-module.exports.fetch = function () {
-  return fetchPlaylistXml()
-    .then(res => res.text())
-    .then(parsePlaylist)
-    .then(cleanPlaylist)
-}
+module.exports.fetch = () => (
+  fetchPlaylistXmlAsText().then(parsePlaylist).then(cleanPlaylist)
+)
