@@ -24,8 +24,7 @@
     "argparse": "^1.0.10",
     "lodash.sortby": "^4.7.0",
     "node-fetch": "^2.1.2",
-    "readable-stream": "^2.3.6",
-    "xml2js": "^0.4.19"
+    "readable-stream": "^2.3.6"
   },
   "devDependencies": {
     "mocha": "^4.0.1",
