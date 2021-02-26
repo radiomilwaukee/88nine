@@ -1,7 +1,6 @@
-const xml2js = require('xml2js')
 const fetch = require('node-fetch')
 
-const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/WYMSHIS.XML'
+const PLAYLIST_URL = 'https://s3.amazonaws.com/radiomilwaukee-playlist/RMDATA'
 
 /**
  * @param {int} time Duration of delay
@@ -26,7 +25,7 @@ const checkStatus = (res) => {
   }
 }
 
-const fetchPlaylistXml = (retryTime = 1000) => (
+let fetchPlaylist = (retryTime = 1000) => (
   fetch(PLAYLIST_URL).then(
     checkStatus
   ).catch((error) => {
@@ -39,47 +38,39 @@ const fetchPlaylistXml = (retryTime = 1000) => (
     }
     return delay(retryTime).then(
       // grow the delay between retries linearly
-      fetchPlaylistXml.bind(this, retryTime + 1000)
+      fetchPlaylist.bind(this, retryTime + 1000)
     )
-  })
+  }).then(
+    response => response.json()
+  )
 )
 
-let fetchPlaylistXmlAsText = () => (
-  fetchPlaylistXml().then(res => res.text())
-)
+const parseDuration = (duration) => {
+  const [hours, minutes, seconds] = duration.split(':').map((x) => parseInt(x))
+  return hours * 60 * 60 + minutes * 60 + seconds
+}
 
-function parsePlaylist (rawXml) {
-  return new Promise((resolve, reject) => {
-    xml2js.parseString(rawXml, (error, json) => {
-      if (error) { return reject(error) }
-      resolve(json.PlayList.Song)
-    })
-  })
-};
+const cleanPlaylist = (playlist) => {
+  // if the playlist is empty, return an empty array
+  if (playlist.nowPlaying.length === 0) {
+    return []
+  }
 
-function cleanPlaylist (playlist) {
-  // HACK: we cannot trust anything but the most recent song in the playlist
-  // (see the "Incorrect Songs" section in README.md). If / when this is fixed,
-  // removing the following line will enable handing the full history that's
-  // avaliable in WYMSHIS.XML and all 100 entries will be written out, in order,
-  // when a new stream is created.
-  playlist = [playlist[0]]
+  // the playlist only gives us the current song
+  const song = playlist.nowPlaying[0]
 
-  // as far as I can tell, the "Date" element is always just a less accurate
-  // copy of "AIRTIME", and both "Composer" & "MusicId" are always blank. "Cart"
-  // is omitted because it's not useful.
-  return playlist.map((song) => ({
-    album: song.Album[0],
-    artist: song.Artist[0],
-    duration: parseInt(song.Duration[0]),
-    playedAt: new Date(song.AIRTIME[0]),
-    title: song.Title[0]
-  }))
+  return [{
+    album: song.album,
+    artist: song.artist,
+    duration: parseDuration(song.duration),
+    playedAt: new Date(song.startTime),
+    title: song.title
+  }]
 }
 
 /*
  * Fetch the entire playlist history
  */
 module.exports.fetch = () => (
-  fetchPlaylistXmlAsText().then(parsePlaylist).then(cleanPlaylist)
+  fetchPlaylist().then(cleanPlaylist)
 )
