@@ -25,7 +25,7 @@ const checkStatus = (res) => {
   }
 }
 
-const fetchPlaylist = (retryTime = 1000) => (
+let fetchPlaylist = (retryTime = 1000) => (
   fetch(PLAYLIST_URL).then(
     checkStatus
   ).catch((error) => {
