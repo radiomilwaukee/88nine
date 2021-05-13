@@ -58,5 +58,18 @@ describe('Playlist', () => {
         assert.deepEqual(playlist, [])
       })
     })
+
+    it('ignores bad data', () => {
+      playlist.__set__('fetchPlaylist', function () {
+        var fs = require('fs')
+        return new Promise((resolve, reject) => {
+          resolve(JSON.parse(fs.readFileSync('./test/data/playlist-bad-data.json')))
+        })
+      })
+
+      return playlist.fetch().then((playlist) => {
+        assert.deepEqual(playlist, [])
+      })
+    })
   })
 })
