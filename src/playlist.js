@@ -59,6 +59,11 @@ const cleanPlaylist = (playlist) => {
   // the playlist only gives us the current song
   const song = playlist.nowPlaying[0]
 
+  // clearly bad data, return an empty array
+  if (song.title === '' && song.album === '' && song.artist === '') {
+    return []
+  }
+
   return [{
     album: song.album,
     artist: song.artist,
